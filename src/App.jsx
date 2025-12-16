@@ -5,6 +5,8 @@ import { pokemons } from './data/pokemons'
 import PokemonCard from './components/PokemonCard'
 import Header from './components/Header'
 import PokemonList from './components/PokemonsList'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import PokemonForm from './components/PokemonForm'
 
 function App() {
 
@@ -12,7 +14,13 @@ function App() {
     <>
       <Header />
       <Container>
-        <PokemonList  />
+        <BrowserRouter>
+          {/* Aqui iran las routas */}
+          <Routes>
+            <Route path="/" element={<PokemonList />} />
+            <Route path="/add-pokemon" element={<PokemonForm />} />
+          </Routes>
+        </BrowserRouter> 
       </Container>
     </>
   )
