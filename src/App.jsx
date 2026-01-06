@@ -4,23 +4,26 @@ import './App.css'
 import { pokemons } from './data/pokemons'
 import PokemonCard from './components/PokemonCard'
 import Header from './components/Header'
-import PokemonList from './components/PokemonsList'
+import PokemonList from './pages/PokemonsList'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import PokemonForm from './components/PokemonForm'
+import PokemonForm from './pages/PokemonForm'
+import Login from './pages/Login'
 
 function App() {
 
   return (
     <>
-      <Header />
+
       <Container>
         <BrowserRouter>
           {/* Aqui iran las routas */}
+          <Header />
           <Routes>
             <Route path="/" element={<PokemonList />} />
             <Route path="/add-pokemon" element={<PokemonForm />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
-        </BrowserRouter> 
+        </BrowserRouter>
       </Container>
     </>
   )
