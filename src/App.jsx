@@ -8,6 +8,7 @@ import PokemonList from './pages/PokemonsList'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import PokemonForm from './pages/PokemonForm'
 import Login from './pages/Login'
+import PokemonDisplay from './pages/PokemonDisplay'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<PokemonList />} />
             <Route path="/add-pokemon" element={<PokemonForm />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/details/:id" element={<PokemonDisplay />} />
           </Routes>
         </BrowserRouter>
       </Container>

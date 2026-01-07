@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { AppBar, Container, Toolbar, Button } from "@mui/material";
-import pokedexLogo from "../assets/pokedexlogo.jpg";
+import pokedexLogo from "../assets/pokedexlogo.png";
 import "./Header.css";
 import { logout } from "../services/userServices";
 
@@ -14,11 +14,11 @@ export default function Header() {
     }
     return (
         <Container>
-            <div className="pokedex navbar">
-                <AppBar position="static">
+            <div className="pokedex navbar" >
+                <AppBar position="static" sx={{ backgroundColor: "#1A7B91" }} >
                     <Toolbar>
-                        <div className="image-container">
-                            <img src={pokedexLogo} alt="Logo" height={100} />
+                        <div className="image-container" >
+                            <img src={pokedexLogo} alt="Logo" height={100} style={{ border: "10px solid", color: "cadetblue", width: "500px", height: "250px" }} />
                         </div>
                     </Toolbar>
                     <Toolbar >
