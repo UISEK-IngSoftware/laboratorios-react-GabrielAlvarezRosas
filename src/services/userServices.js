@@ -3,6 +3,7 @@ import axios from "axios";
 const API_BASE_URL = import.meta.env.VITE_API_AUTH_URL;
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET;
+const API_AUTH_URL = import.meta.env.VITE_API_AUTH_URL;
 
 export async function login(username, password) {
     const params = new URLSearchParams();
@@ -13,7 +14,7 @@ export async function login(username, password) {
     params.append('client_secret', CLIENT_SECRET);
 
     const response = await axios.post(
-        `${API_BASE_URL}o/token/`,
+        `${API_BASE_URL}/token/`,
         params,
         {
             headers: {
@@ -34,7 +35,7 @@ export async function logout(){
     params.append('token', token);
 
     await axios.post(
-        `${API_BASE_URL}o/revoke_token/`, params,{
+        `${API_BASE_URL}/revoke_token/`, params,{
             headers:{
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
