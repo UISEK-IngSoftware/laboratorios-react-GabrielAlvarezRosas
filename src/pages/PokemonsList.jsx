@@ -11,18 +11,36 @@ export default function PokemonList() {
       setPokemons(data)
     }).catch((error) => {
       console.error("Error obteniendo los pokemon:", error)
-    alert("Error obteniendo los pokemones, intente más tarde.");
-  });
+      alert("Error obteniendo los pokemones, intente más tarde.");
+    });
   }, []);
+
+  useEffect(() => {
+    loadPokemons();
+  }, []);
+
+  const loadPokemons = async () => {
+    try {
+      const data = await fetchPokemons();
+      setPokemons(data);
+    } catch (error) {
+      console.error("Error al cargar pokemons", error);
+    }
+  };
+
+  const handleDelete = (id) => {
+    setPokemons((prev) => prev.filter((p) => p.id !== id));
+  };
 
   return (
     <Grid container spacing={2}>
       {pokemons.map(
         (pokemon) => (
           <Grid size={{ xs: 12, sm: 6, lg: 4 }}>
-            <PokemonCard pokemon={pokemon} />
+            <PokemonCard pokemon={pokemon} onDelete={handleDelete} />
           </Grid>
         ))}
     </Grid>
   );
 }
+
