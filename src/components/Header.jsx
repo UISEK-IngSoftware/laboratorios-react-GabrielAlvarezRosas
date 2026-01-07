@@ -8,8 +8,8 @@ export default function Header() {
     const isLoggedIn = localStorage.getItem("access_token") !== null;
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        logout();
+    const handleLogout = async () => {
+        await logout();
         navigate("/login");
     }
     return (
