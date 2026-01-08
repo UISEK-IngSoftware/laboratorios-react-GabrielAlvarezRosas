@@ -53,3 +53,24 @@ export async function createPokemon(pokemonData) {
     const response = await axios.post(`${API_BASE_URL}/pokemons/`, payload);
     return response.data;
 }
+
+export async function updatePokemon(id, pokemonData) {
+  let payload = {
+    ...pokemonData,
+    height: Number(pokemonData.height),
+    weight: Number(pokemonData.weight),
+  };
+
+   if (pokemonData.picture instanceof File) {
+    const pictureBase64 = await fileToBase64(pokemonData.picture);
+    payload.picture = pictureBase64;
+  } else {
+   
+    delete payload.picture;
+  }
+
+  console.log("Payload enviado:", payload);
+
+  const response = await axios.patch(`${API_BASE_URL}/pokemons/${id}/`, payload);
+  return response.data;
+}

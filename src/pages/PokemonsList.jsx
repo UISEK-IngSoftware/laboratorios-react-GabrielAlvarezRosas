@@ -15,18 +15,7 @@ export default function PokemonList() {
     });
   }, []);
 
-  useEffect(() => {
-    loadPokemons();
-  }, []);
-
-  const loadPokemons = async () => {
-    try {
-      const data = await fetchPokemons();
-      setPokemons(data);
-    } catch (error) {
-      console.error("Error al cargar pokemons", error);
-    }
-  };
+  
 
   const handleDelete = (id) => {
     setPokemons((prev) => prev.filter((p) => p.id !== id));

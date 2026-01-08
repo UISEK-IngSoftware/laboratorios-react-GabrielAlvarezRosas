@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import PokemonForm from './pages/PokemonForm'
 import Login from './pages/Login'
 import PokemonDisplay from './pages/PokemonDisplay'
+import PokemonEdit from './pages/PokemonEdit'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/add-pokemon" element={<PokemonForm />} />
             <Route path="/login" element={<Login />} />
             <Route path="/details/:id" element={<PokemonDisplay />} />
+            <Route path="/update/:id" element={<PokemonEdit />} />
           </Routes>
         </BrowserRouter>
       </Container>

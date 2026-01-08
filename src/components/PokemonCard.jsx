@@ -40,7 +40,7 @@ export default function PokemonCard ({ pokemon, onDelete }) {
                     <Button size="small" href={`/details/${pokemon.id}`} >Ver detalles</Button>
                     {isLoggedIn && (
                                 <>
-                                    <Button size="small" >Editar Pokemon</Button>
+                                    <Button size="small" href={`/update/${pokemon.id}`}>Editar Pokemon</Button>
                                     <Button size="small" color="error" onClick={handleDelete}>Eliminar Pokemon</Button>
                                 </>
                     )}
