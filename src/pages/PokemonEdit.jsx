@@ -31,7 +31,7 @@ export default function PokemonEdit() {
         if (e.target.name === "picture") {
             setPokemonData({
                 ...pokemonData,
-                picture: e.target.files[0], // aquí guardas el File
+                picture: e.target.files[0], 
             });
         } else {
             setPokemonData({

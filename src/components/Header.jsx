@@ -24,9 +24,9 @@ export default function Header() {
                     <Toolbar >
                         <Container>
                             <Button color="inherit" href="/">Inicio</Button>
+                            <Button color="inherit" href="/trainers">Entrenadores</Button>
                             {isLoggedIn && (
                                 <>
-                                    <Button color="inherit" href="/add-pokemon">Agregar Pokemon</Button>
                                     <Button color="inherit" onClick={handleLogout}>Cerrar Sesión</Button>
                                 </>
                             )}
