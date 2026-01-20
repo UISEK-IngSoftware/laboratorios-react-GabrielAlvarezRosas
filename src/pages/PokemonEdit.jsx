@@ -1,4 +1,4 @@
-import { Box, Button, Typography, TextField } from "@mui/material";
+import { TextField, Box, Button, Typography, MenuItem } from "@mui/material";
 import { useState, useEffect } from "react";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 import { useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ const API_MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { updatePokemon } from "../services/pokemonService";
+import { fetchTrainers } from "../services/trainerService";
 
 
 export default function PokemonEdit() {
@@ -13,6 +14,7 @@ export default function PokemonEdit() {
 
     const { id } = useParams();
     const [pokemonData, setPokemonData] = useState(null);
+    const [trainers, setTrainers] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,6 +22,11 @@ export default function PokemonEdit() {
             .then((res) => res.json())
             .then((data) => setPokemonData(data))
             .catch((err) => console.error("Error al cargar Pokémon:", err));
+
+        // cargar entrenadores al montar el componente
+        fetchTrainers()
+            .then((data) => setTrainers(data))
+            .catch((err) => console.error("Error cargando entrenadores:", err));
     }, [id]);
 
     if (!pokemonData) {
@@ -31,7 +38,7 @@ export default function PokemonEdit() {
         if (e.target.name === "picture") {
             setPokemonData({
                 ...pokemonData,
-                picture: e.target.files[0], 
+                picture: e.target.files[0],
             });
         } else {
             setPokemonData({
@@ -67,6 +74,21 @@ export default function PokemonEdit() {
                 <TextField label="Tipo" name="type" variant="outlined" value={pokemonData.type} onChange={handleChange} />
                 <TextField label="Peso" name="weight" variant="outlined" type="number" value={pokemonData.weight} onChange={handleChange} />
                 <TextField label="Altura" name="height" variant="outlined" type="number" value={pokemonData.height} onChange={handleChange} />
+                <TextField
+                    select
+                    label="Entrenador"
+                    name="trainer"
+                    variant="outlined"
+                    value={pokemonData.trainer}
+                    onChange={handleChange}
+                >
+                    {trainers.map((trainer) => (
+                        <MenuItem key={trainer.id} value={trainer.id}>
+                            {trainer.name}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
                 <img
                     src={pokemonImageUrl}
                     alt={pokemonData.name}

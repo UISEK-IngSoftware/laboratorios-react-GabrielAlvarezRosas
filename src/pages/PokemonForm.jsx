@@ -1,7 +1,8 @@
-import { TextField, Box, Button, Typography } from "@mui/material";
-import { use, useState } from "react";
+import { TextField, Box, Button, Typography , MenuItem} from "@mui/material";
+import { use, useEffect , useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPokemon } from "../services/pokemonService";
+import { fetchTrainers } from "../services/trainerService";
 
 export default function PokemonForm() {
     const [pokemonData, setPokemonData] = useState({
@@ -9,10 +10,19 @@ export default function PokemonForm() {
         type: "",
         weight: "",
         height: "",
-        picture: null
+        picture: null,
+        trainer: ""
     });
 
+    const [trainers, setTrainers] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // cargar entrenadores al montar el componente
+        fetchTrainers()
+            .then((data) => setTrainers(data))
+            .catch((err) => console.error("Error cargando entrenadores:", err));
+    }, []);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -31,7 +41,7 @@ export default function PokemonForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
+        try {
             await createPokemon(pokemonData);
             alert("Pokemon creado exitosamente");
             navigate("/");
@@ -47,11 +57,26 @@ export default function PokemonForm() {
                 formulario de Pokemon
             </Typography>
             <Box component="form" onSubmit={handleSubmit}
-            sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 <TextField label="Nombre" name="name" variant="outlined" onChange={handleChange} />
                 <TextField label="Tipo" name="type" variant="outlined" onChange={handleChange} />
                 <TextField label="Peso" name="weight" variant="outlined" type="number" onChange={handleChange} />
                 <TextField label="Altura" name="height" variant="outlined" type="number" onChange={handleChange} />
+                <TextField
+                    select
+                    label="Entrenador"
+                    name="trainer"
+                    variant="outlined"
+                    value={pokemonData.trainer}
+                    onChange={handleChange}
+                >
+                    {trainers.map((trainer) => (
+                        <MenuItem key={trainer.id} value={trainer.id}>
+                            {trainer.name}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
                 <input
                     type="file"
                     name="picture"
