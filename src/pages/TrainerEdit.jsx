@@ -6,6 +6,7 @@ const API_MEDIA_URL = import.meta.env.VITE_API_MEDIA_URL;
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { updateTrainer } from "../services/trainerService";
+import Spinner from "../components/Spinner";
 
 
 export default function TrainerEdit() {
@@ -13,6 +14,7 @@ export default function TrainerEdit() {
     const { id } = useParams();
     const [trainerData, setTrainerData] = useState(null);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetch(`${API_BASE_URL}${id}/`)
@@ -44,6 +46,7 @@ export default function TrainerEdit() {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             await updateTrainer(id, trainerData);
             alert("Entrenador actualizado exitosamente");
@@ -52,9 +55,15 @@ export default function TrainerEdit() {
             console.error("Error actualizando el entrenador:", error);
             alert("Error actualizando el entrenador, por favor intente más tarde.");
             return;
+        } finally {
+            setLoading(false);
         }
     }
-
+    if (loading) {
+        return (
+            <Spinner />
+        );
+    }
     return (
         <>
             <Typography variant="h5" align="center">

@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { updatePokemon } from "../services/pokemonService";
 import { fetchTrainers } from "../services/trainerService";
+import Spinner from "../components/Spinner";
 
 
 export default function PokemonEdit() {
@@ -16,6 +17,7 @@ export default function PokemonEdit() {
     const [pokemonData, setPokemonData] = useState(null);
     const [trainers, setTrainers] = useState([]);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetch(`${API_BASE_URL}/pokemons/${id}/`)
@@ -52,6 +54,7 @@ export default function PokemonEdit() {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             await updatePokemon(id, pokemonData);
             alert("Pokemon actualizado exitosamente");
@@ -60,7 +63,14 @@ export default function PokemonEdit() {
             console.error("Error actualizando el pokemon:", error);
             alert("Error actualizando el pokemon, por favor intente más tarde.");
             return;
+        } finally {
+            setLoading(false);
         }
+    }
+    if (loading) {
+        return (
+            <Spinner />
+        );
     }
 
     return (

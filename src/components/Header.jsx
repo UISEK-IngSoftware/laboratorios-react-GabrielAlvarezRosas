@@ -3,14 +3,24 @@ import { AppBar, Container, Toolbar, Button } from "@mui/material";
 import pokedexLogo from "../assets/pokedexlogo.png";
 import "./Header.css";
 import { logout } from "../services/userServices";
+import { useState } from "react";
+import Spinner from "../components/Spinner";
 
 export default function Header() {
     const isLoggedIn = localStorage.getItem("access_token") !== null;
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleLogout = async () => {
+        setLoading(true);
         await logout();
+        setLoading(false);
         navigate("/login");
+    }
+    if (loading){
+        return (
+            <Spinner />
+        );
     }
     return (
         <Container>

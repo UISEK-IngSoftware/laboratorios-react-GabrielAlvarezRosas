@@ -3,8 +3,10 @@ import { use, useEffect , useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPokemon } from "../services/pokemonService";
 import { fetchTrainers } from "../services/trainerService";
+import Spinner from "../components/Spinner";
 
 export default function PokemonForm() {
+    const [loading, setLoading] = useState(false);
     const [pokemonData, setPokemonData] = useState({
         name: "",
         type: "",
@@ -41,6 +43,7 @@ export default function PokemonForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             await createPokemon(pokemonData);
             alert("Pokemon creado exitosamente");
@@ -49,7 +52,14 @@ export default function PokemonForm() {
             console.error("Error creando el pokemon:", error);
             alert("Error creando el pokemon, por favor intente más tarde.");
             return;
+        }finally {
+            setLoading(false);
         }
+    }
+    if (loading){
+        return (
+            <Spinner />
+        );
     }
     return (
         <>

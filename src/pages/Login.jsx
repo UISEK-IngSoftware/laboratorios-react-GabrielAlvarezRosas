@@ -2,10 +2,13 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/userServices";
+import Spinner from "../components/Spinner";
 
 export default function Login() {
     const [loginData, setLoginData] = useState({ username: "", password: "" });
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
     const handleChange = (e) => {
         setLoginData({
             ...loginData,
@@ -15,6 +18,7 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             const response = await login(loginData.username, loginData.password);
             localStorage.setItem("access_token", response.access_token);
@@ -24,9 +28,16 @@ export default function Login() {
             console.error("Error en el login:", error);
             alert("Error en el inicio de sesión, por favor verifica tus credenciales.");
             return;
+        }finally {
+            setLoading(false);
         }
 
     };
+    if (loading){
+        return (
+            <Spinner />
+        );
+    }
     return (
         <> <Box component="form" onSubmit={handleSubmit}
         sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
@@ -49,7 +60,7 @@ export default function Login() {
                 onChange={handleChange}
                 required
             />
-            <Button type="submit" variant="contained" color="primary">Iniciar sesión</Button>
+            <Button type="submit" variant="contained" color="primary" disabled={loading}>Iniciar sesión</Button>
         </Box>
         </>
     )

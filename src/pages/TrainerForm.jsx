@@ -2,8 +2,10 @@ import { TextField, Box, Button, Typography } from "@mui/material";
 import { use, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTrainer } from "../services/trainerService";
+import Spinner from "../components/Spinner";
 
 export default function TrainerForm() {
+    const [loading, setLoading] = useState(false);
     const [trainerData, setTrainerData] = useState({
         name: "",
         lastname: "",
@@ -31,6 +33,7 @@ export default function TrainerForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try{
             await createTrainer(trainerData);
             alert("Entrenador creado exitosamente");
@@ -39,7 +42,14 @@ export default function TrainerForm() {
             console.error("Error creando el entrenador:", error);
             alert("Error creando el entrenador, por favor intente más tarde.");
             return;
+        }finally {
+            setLoading(false);
         }
+    }
+    if (loading){
+        return (
+            <Spinner />
+        );
     }
     return (
         <>
